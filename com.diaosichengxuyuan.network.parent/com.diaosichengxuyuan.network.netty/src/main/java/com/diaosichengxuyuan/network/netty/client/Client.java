@@ -7,8 +7,10 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 客户端启动
@@ -38,12 +40,14 @@ public class Client {
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
                     //获取管道
                     ChannelPipeline pipeline = socketChannel.pipeline();
+                    //心跳类
+                    pipeline.addLast(new IdleStateHandler(0, 0, 10, TimeUnit.SECONDS));
                     //处理类
                     pipeline.addLast(new ClientHandler());
                 }
             });
             //增加客户端连接超时
-            bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 1000000);
+            bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 1);
             //发起异步连接操作
             ChannelFuture future = bootstrap.connect(new InetSocketAddress("127.0.0.1", 8866)).sync();
             //等待客户端链路关闭
@@ -93,4 +97,8 @@ class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
         cause.printStackTrace();
     }
 
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        System.out.println("client handle event:" + evt);
+    }
 }

@@ -7,6 +7,9 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * 服务端启动
@@ -37,6 +40,8 @@ public class Server {
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
                     //获取管道
                     ChannelPipeline pipeline = socketChannel.pipeline();
+                    //心跳类
+                    pipeline.addLast(new IdleStateHandler(0, 0, 10, TimeUnit.SECONDS));
                     //处理类
                     pipeline.addLast(new ServerHandler());
                 }
@@ -97,6 +102,11 @@ public class Server {
             ctx.channel().close();
             //打印异常
             cause.printStackTrace();
+        }
+
+        @Override
+        public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+            System.out.println("server handle event:" + evt);
         }
     }
 
