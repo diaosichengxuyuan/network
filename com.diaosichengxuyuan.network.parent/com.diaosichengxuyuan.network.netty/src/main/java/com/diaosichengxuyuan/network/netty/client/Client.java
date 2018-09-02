@@ -46,10 +46,12 @@ public class Client {
                     pipeline.addLast(new ClientHandler4());
                 }
             });
+            //增加客户端连接超时
+            bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS,1000000);
             //发起异步连接操作
-            ChannelFuture futrue = bootstrap.connect(new InetSocketAddress("127.0.0.1", 8866)).sync();
+            ChannelFuture future = bootstrap.connect(new InetSocketAddress("127.0.0.1", 8866)).sync();
             //等待客户端链路关闭
-            futrue.channel().closeFuture().sync();
+            future.channel().closeFuture().sync();
         } catch(InterruptedException e) {
             e.printStackTrace();
         } finally {
