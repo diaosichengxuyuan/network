@@ -1,12 +1,12 @@
 package com.diaosichengxuyuan.network.netty.client;
 
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 
 import java.net.InetSocketAddress;
 
@@ -38,16 +38,12 @@ public class Client {
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
                     //获取管道
                     ChannelPipeline pipeline = socketChannel.pipeline();
-                    //字符串解码器
-                    pipeline.addLast(new StringDecoder());
-                    //字符串编码器
-                    pipeline.addLast(new StringEncoder());
                     //处理类
-                    pipeline.addLast(new ClientHandler4());
+                    pipeline.addLast(new ClientHandler());
                 }
             });
             //增加客户端连接超时
-            bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS,1000000);
+            bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 1000000);
             //发起异步连接操作
             ChannelFuture future = bootstrap.connect(new InetSocketAddress("127.0.0.1", 8866)).sync();
             //等待客户端链路关闭
@@ -62,18 +58,25 @@ public class Client {
 
 }
 
-class ClientHandler4 extends SimpleChannelInboundHandler<String> {
+class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-        System.out.println("server response ： " + msg);
+    protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
+        if(!msg.isReadable()) {
+            return;
+        }
+
+        byte[] msgArray = new byte[msg.readableBytes()];
+        msg.readBytes(msgArray);
+        String msgString = new String(msgArray, "UTF-8");
+        System.out.println("server response ： " + msgString);
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        //给服务器发消息
-        ctx.channel().writeAndFlush("i am client !");
-
+        ByteBuf msg = ByteBufAllocator.DEFAULT.buffer(100);
+        msg.writeBytes("i am client !".getBytes("UTF-8"));
+        ctx.channel().writeAndFlush(msg);
         System.out.println("channelActive");
     }
 

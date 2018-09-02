@@ -1,12 +1,12 @@
 package com.diaosichengxuyuan.network.netty.server;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 
 /**
  * 服务端启动
@@ -37,12 +37,8 @@ public class Server {
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
                     //获取管道
                     ChannelPipeline pipeline = socketChannel.pipeline();
-                    //字符串解码器
-                    pipeline.addLast(new StringDecoder());
-                    //字符串编码器
-                    pipeline.addLast(new StringEncoder());
                     //处理类
-                    pipeline.addLast(new ServerHandler4());
+                    pipeline.addLast(new ServerHandler());
                 }
             });
             //设置TCP参数
@@ -66,12 +62,23 @@ public class Server {
         }
     }
 
-    private class ServerHandler4 extends SimpleChannelInboundHandler<String> {
+    class ServerHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
         @Override
-        protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-            System.out.println("client response :" + msg);
-            ctx.channel().writeAndFlush("i am server !");
+        protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
+            if(!msg.isReadable()) {
+                System.out.println("no data to read.");
+                return;
+            }
+
+            byte[] msgArray = new byte[msg.readableBytes()];
+            msg.readBytes(msgArray);
+            String msgString = new String(msgArray, "UTF-8");
+            System.out.println("client response :" + msgString);
+
+            ByteBuf byteBuf = ByteBufAllocator.DEFAULT.buffer(100);
+            byteBuf.writeBytes("i am server !".getBytes("UTF-8"));
+            ctx.channel().writeAndFlush(byteBuf);
         }
 
         @Override
