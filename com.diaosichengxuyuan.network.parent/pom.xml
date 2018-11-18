@@ -11,20 +11,40 @@
 
     <modules>
         <module>com.diaosichengxuyuan.network.netty</module>
+        <module>com.diaosichengxuyuan.network.protocal</module>
     </modules>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <modbus.master.tcp.version>1.1.0</modbus.master.tcp.version>
+        <modbus.slave.tcp.version>1.1.0</modbus.slave.tcp.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.digitalpetri.modbus</groupId>
+            <artifactId>modbus-master-tcp</artifactId>
+            <version>${modbus.master.tcp.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.digitalpetri.modbus</groupId>
+            <artifactId>modbus-slave-tcp</artifactId>
+            <version>${modbus.slave.tcp.version}</version>
+        </dependency>
+    </dependencies>
     <build>
         <pluginManagement>
             <plugins>
-                <!--JDK版本 -->
+                <!--JDK版本-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.5.1</version>
                     <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
-                        <encoding>UTF-8</encoding>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <encoding>${project.build.sourceEncoding}</encoding>
                         <showWarnings>true</showWarnings>
                     </configuration>
                 </plugin>
