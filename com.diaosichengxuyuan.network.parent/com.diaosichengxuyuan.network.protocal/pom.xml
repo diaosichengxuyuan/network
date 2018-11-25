@@ -19,5 +19,9 @@
             <groupId>com.digitalpetri.modbus</groupId>
             <artifactId>modbus-slave-tcp</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.infiniteautomation</groupId>
+            <artifactId>bacnet4j</artifactId>
+        </dependency>
     </dependencies>
 </project>
