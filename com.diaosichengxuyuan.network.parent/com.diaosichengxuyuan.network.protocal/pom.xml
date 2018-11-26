@@ -10,18 +10,29 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>com.diaosichengxuyuan.network.protocal</artifactId>
 
+    <properties>
+        <modbus.master.tcp.version>1.1.0</modbus.master.tcp.version>
+        <modbus.slave.tcp.version>1.1.0</modbus.slave.tcp.version>
+        <bacnet4j.version>5.0.0-SNAPSHOT</bacnet4j.version>
+    </properties>
+
     <dependencies>
+        <!--开源modbus工具箱-->
         <dependency>
             <groupId>com.digitalpetri.modbus</groupId>
             <artifactId>modbus-master-tcp</artifactId>
+            <version>${modbus.master.tcp.version}</version>
         </dependency>
         <dependency>
             <groupId>com.digitalpetri.modbus</groupId>
             <artifactId>modbus-slave-tcp</artifactId>
+            <version>${modbus.slave.tcp.version}</version>
         </dependency>
+        <!--开源bacnet工具箱-->
         <dependency>
             <groupId>com.infiniteautomation</groupId>
             <artifactId>bacnet4j</artifactId>
+            <version>${bacnet4j.version}</version>
         </dependency>
     </dependencies>
 </project>
