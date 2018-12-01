@@ -12,6 +12,7 @@
     <modules>
         <module>com.diaosichengxuyuan.network.netty</module>
         <module>com.diaosichengxuyuan.network.protocal</module>
+        <module>com.diaosichengxuyuan.network.nio</module>
     </modules>
 
     <properties>
