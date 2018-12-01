@@ -2,7 +2,9 @@ package com.diaosichengxuyuan.network.nio;
 
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.*;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
@@ -10,7 +12,7 @@ import java.util.concurrent.TimeUnit;
  * NIO客户端
  *
  * 1.Selector.selectedKeys这个集合对象一直是同一个，每次变化的是集合中的SelectionKey个数
- * 2.SelectionKey对象不会变，当循环中被删除之后，如果满足条件下次还会加到集合中
+ * 2.SelectionKey对象不会变(因为Selector使用SelectionKey[]缓存了所有的SelectionKey)
  * 3.SelectionKey中持有SocketChannel，如果连接不关闭，SocketChannel一直是同一个，每次变化的是注册到Selector中的状态
  * 4.selector.select()方法必不可少
  * 5.SocketChannel.finishConnect()必不可少
@@ -19,9 +21,9 @@ import java.util.concurrent.TimeUnit;
  * @author liuhaipeng
  * @date 2018/11/30
  */
-public class NioClient {
+public class NioClient1 {
     public static void main(String[] args) {
-        new NioClient().start();
+        new NioClient1().start();
     }
 
     public void start() {
@@ -56,7 +58,7 @@ public class NioClient {
                         }
 
                         ByteBuffer buffer = ByteBuffer.allocate(1024);
-                        buffer.put("我是客户端".getBytes("UTF-8"));
+                        buffer.put("我是客户端1".getBytes("UTF-8"));
                         buffer.flip();
                         channel.write(buffer);
                     } else if(selectionKey.isAcceptable()) {
@@ -76,7 +78,7 @@ public class NioClient {
                     } else if(selectionKey.isWritable()) {
                         SocketChannel channel = (SocketChannel)selectionKey.channel();
                         ByteBuffer buffer = ByteBuffer.allocate(1024);
-                        buffer.put("我是客户端".getBytes("UTF-8"));
+                        buffer.put("我是客户端1".getBytes("UTF-8"));
                         buffer.flip();
                         channel.write(buffer);
                         System.out.println("写数据");
