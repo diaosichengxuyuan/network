@@ -13,16 +13,16 @@ import java.util.concurrent.ExecutionException;
  * @author liuhaipeng
  * @date 2018/11/18
  */
-public class ModbusClient {
+public class ModbusTcpClient {
     private final ModbusTcpMaster master;
 
-    public ModbusClient() {
+    public ModbusTcpClient() {
         master = new ModbusTcpMaster(new ModbusTcpMasterConfig.Builder("localhost")
             .setPort(50200).build());
     }
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        new ModbusClient().read(1, 101, 2);
+        new ModbusTcpClient().read(1, 101, 2);
     }
 
     public void read(int unitId, int address, int quality) throws InterruptedException, ExecutionException {

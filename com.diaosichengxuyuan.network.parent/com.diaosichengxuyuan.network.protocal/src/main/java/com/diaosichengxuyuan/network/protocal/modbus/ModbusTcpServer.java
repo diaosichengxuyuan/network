@@ -15,11 +15,11 @@ import java.util.concurrent.ExecutionException;
  * @author liuhaipeng
  * @date 2018/11/18
  */
-public class ModbusServer {
+public class ModbusTcpServer {
     private final ModbusTcpSlave slave = new ModbusTcpSlave(new ModbusTcpSlaveConfig.Builder().build());
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        new ModbusServer().start();
+        new ModbusTcpServer().start();
         System.out.println("启动成功");
     }
 
