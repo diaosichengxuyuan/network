@@ -14,10 +14,11 @@
         <modbus.master.tcp.version>1.1.0</modbus.master.tcp.version>
         <modbus.slave.tcp.version>1.1.0</modbus.slave.tcp.version>
         <bacnet4j.version>5.0.0-SNAPSHOT</bacnet4j.version>
+        <eclipse.milo.version>0.2.3</eclipse.milo.version>
     </properties>
 
     <dependencies>
-        <!--开源modbus工具箱-->
+        <!--开源modbus tcp工具箱-->
         <dependency>
             <groupId>com.digitalpetri.modbus</groupId>
             <artifactId>modbus-master-tcp</artifactId>
@@ -33,6 +34,28 @@
             <groupId>com.infiniteautomation</groupId>
             <artifactId>bacnet4j</artifactId>
             <version>${bacnet4j.version}</version>
+        </dependency>
+
+        <!--开源opc ua工具箱-->
+        <dependency>
+            <groupId>org.eclipse.milo</groupId>
+            <artifactId>sdk-client</artifactId>
+            <version>${eclipse.milo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.milo</groupId>
+            <artifactId>sdk-server</artifactId>
+            <version>${eclipse.milo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.milo</groupId>
+            <artifactId>stack-client</artifactId>
+            <version>${eclipse.milo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.milo</groupId>
+            <artifactId>stack-server</artifactId>
+            <version>${eclipse.milo.version}</version>
         </dependency>
     </dependencies>
 </project>
