@@ -1,4 +1,4 @@
-package com.diaosichengxuyuan.network.nio;
+package com.diaosichengxuyuan.network.nio.buffer;
 
 import java.nio.ByteBuffer;
 

@@ -1,8 +1,10 @@
-package com.diaosichengxuyuan.network.nio;
+package com.diaosichengxuyuan.network.nio.client;
 
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.*;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
@@ -19,9 +21,9 @@ import java.util.concurrent.TimeUnit;
  * @author liuhaipeng
  * @date 2018/11/30
  */
-public class NioClient2 {
+public class NioClient1 {
     public static void main(String[] args) {
-        new NioClient2().start();
+        new NioClient1().start();
     }
 
     public void start() {
@@ -56,7 +58,7 @@ public class NioClient2 {
                         }
 
                         ByteBuffer buffer = ByteBuffer.allocate(1024);
-                        buffer.put("我是客户端2".getBytes("UTF-8"));
+                        buffer.put("我是客户端1".getBytes("UTF-8"));
                         buffer.flip();
                         channel.write(buffer);
                     } else if(selectionKey.isAcceptable()) {
@@ -76,7 +78,7 @@ public class NioClient2 {
                     } else if(selectionKey.isWritable()) {
                         SocketChannel channel = (SocketChannel)selectionKey.channel();
                         ByteBuffer buffer = ByteBuffer.allocate(1024);
-                        buffer.put("我是客户端2".getBytes("UTF-8"));
+                        buffer.put("我是客户端1".getBytes("UTF-8"));
                         buffer.flip();
                         channel.write(buffer);
                         System.out.println("写数据");
