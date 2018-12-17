@@ -16,6 +16,7 @@
         <bacnet4j.version>5.0.0-SNAPSHOT</bacnet4j.version>
         <eclipse.milo.version>0.2.5-SNAPSHOT</eclipse.milo.version>
         <bouncycastle.version>1.58</bouncycastle.version>
+        <logback-classic.version>1.1.7</logback-classic.version>
     </properties>
 
     <dependencies>
@@ -72,7 +73,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.1.7</version>
+            <version>${logback-classic.version}</version>
         </dependency>
     </dependencies>
 </project>
