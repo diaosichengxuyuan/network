@@ -66,48 +66,47 @@ public class Server {
             worker.shutdownGracefully();
         }
     }
+}
 
-    class ServerHandler extends SimpleChannelInboundHandler<ByteBuf> {
+class ServerHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
-        @Override
-        protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
-            if(!msg.isReadable()) {
-                System.out.println("no data to read.");
-                return;
-            }
-
-            byte[] msgArray = new byte[msg.readableBytes()];
-            msg.readBytes(msgArray);
-            String msgString = new String(msgArray, "UTF-8");
-            System.out.println("client response :" + msgString);
-
-            ByteBuf byteBuf = ByteBufAllocator.DEFAULT.buffer(100);
-            byteBuf.writeBytes("i am server !".getBytes("UTF-8"));
-            ctx.channel().writeAndFlush(byteBuf);
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
+        if(!msg.isReadable()) {
+            System.out.println("no data to read.");
+            return;
         }
 
-        @Override
-        public void channelActive(ChannelHandlerContext ctx) throws Exception {
-            System.out.println("channelActive");
-        }
+        byte[] msgArray = new byte[msg.readableBytes()];
+        msg.readBytes(msgArray);
+        String msgString = new String(msgArray, "UTF-8");
+        System.out.println("client response :" + msgString);
 
-        @Override
-        public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-            System.out.println("channelInactive");
-        }
-
-        @Override
-        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-            //关闭通道
-            ctx.channel().close();
-            //打印异常
-            cause.printStackTrace();
-        }
-
-        @Override
-        public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-            System.out.println("server handle event:" + evt);
-        }
+        ByteBuf byteBuf = ByteBufAllocator.DEFAULT.buffer(100);
+        byteBuf.writeBytes("i am server !".getBytes("UTF-8"));
+        ctx.channel().writeAndFlush(byteBuf);
     }
 
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("channelActive");
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("channelInactive");
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        //关闭通道
+        ctx.channel().close();
+        //打印异常
+        cause.printStackTrace();
+    }
+
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        System.out.println("server handle event:" + evt);
+    }
 }
