@@ -14,7 +14,7 @@
         <modbus.master.tcp.version>1.1.0</modbus.master.tcp.version>
         <modbus.slave.tcp.version>1.1.0</modbus.slave.tcp.version>
         <bacnet4j.version>5.0.0-SNAPSHOT</bacnet4j.version>
-        <eclipse.milo.version>0.2.5-SNAPSHOT</eclipse.milo.version>
+        <eclipse.milo.version>0.6.8</eclipse.milo.version>
         <bouncycastle.version>1.58</bouncycastle.version>
         <logback-classic.version>1.1.7</logback-classic.version>
     </properties>
